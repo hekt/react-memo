@@ -1,31 +1,30 @@
-import React, { Component } from 'react';
-import { save } from '../storage';
-import { ArticleData, parseArticles } from '../article';
+import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { append } from 'storage';
+import { parseArticles, articleDataState } from 'article';
 
-export type RegisterFormProps = {
-  onSubmit: (articles: ArticleData[]) => void
-}
+export function RegisterForm() {
+  const [text, setText] = useState('');
+  const [articleDataList, setArticleData] = useRecoilState(articleDataState);
 
-export class RegisterForm extends Component<RegisterFormProps> {
-  constructor(props: RegisterFormProps) {
-    super(props);
-    this.submitData = this.submitData.bind(this);
-  }
-  submitData(event: any) {
-    const formElem = event.target.parentElement;
-    const textElem = formElem.querySelector('.text');
+  const handleClick = () => {
+    setArticleData(articleDataList.concat(parseArticles(text)));
+    append(text);
+    setText('');
+  };
 
-    this.props.onSubmit(parseArticles(textElem.value));
-    save(textElem.value);
-
-    textElem.value = '';
-  }
-  render() {
-    return (
-      <div className="register-form">
-        <textarea className="text" placeholder="text"></textarea><br />
-        <button onClick={(ev) => this.submitData(ev)}>Register</button>
-      </div>
-    );
-  }
+  return (
+    <div className="register-form">
+      <textarea
+        className="text"
+        placeholder="text"
+        value={text}
+        onChange={(ev) => {
+          setText(ev.target.value);
+        }}
+      />
+      <br />
+      <button onClick={handleClick}>Register</button>
+    </div>
+  );
 }

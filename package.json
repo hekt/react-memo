@@ -15,13 +15,15 @@
     "react-dom": "^16.13.1",
     "react-modal": "^3.11.2",
     "react-scripts": "3.4.1",
+    "recoil": "^0.0.7",
     "typescript": "~3.7.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "BROWSER=firefox react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "tslint": "tslint --project ./tsconfig.json ./{src,__tests__}/**/*.{ts,tsx}"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -37,5 +39,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/recoil": "^0.0.0",
+    "prettier": "^2.0.5",
+    "tslint": "^6.1.2",
+    "tslint-config-airbnb": "^5.11.2",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.3.0"
   }
 }

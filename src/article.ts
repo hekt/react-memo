@@ -1,10 +1,24 @@
+import { atom } from 'recoil';
+
+import { load } from 'storage';
+
 export type ArticleData = {
-  title: string
-  lines: string[]
+  title: string;
+  lines: string[];
 };
 
+const initialArticleDataList: ArticleData[] = parseArticles(load());
+export const articleDataState = atom({
+  key: 'articleDataList',
+  default: initialArticleDataList,
+});
+export const filteredArticleDataState = atom({
+  key: 'filteredArticleDataList',
+  default: initialArticleDataList,
+});
+
 export function parseArticles(text: string): ArticleData[] {
-  let articles: ArticleData[] = [];
+  const articles: ArticleData[] = [];
   let title = '';
   let texts: string[] = [];
   text.split('\n').forEach((l: string) => {
@@ -15,7 +29,7 @@ export function parseArticles(text: string): ArticleData[] {
 
     if (title !== '') {
       articles.push({
-        title: title,
+        title,
         lines: texts,
       });
     }
@@ -26,7 +40,7 @@ export function parseArticles(text: string): ArticleData[] {
 
   if (title !== '') {
     articles.push({
-      title: title,
+      title,
       lines: texts,
     });
   }
