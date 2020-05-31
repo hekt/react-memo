@@ -1,22 +1,17 @@
-import React from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import React, { useCallback } from "react";
+import { useSetRecoilState } from "recoil";
 
-import { articleDataState, filteredArticleDataState } from 'article';
+import { filterQueryState } from 'atoms/filterQuery';
 
 export const SearchForm = () => {
-  const articles = useRecoilValue(articleDataState);
-  const setFilteredArticleData = useSetRecoilState(filteredArticleDataState);
+  const setQuery = useSetRecoilState(filterQueryState);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    const filteredArticles =
-      value === ''
-        ? articles
-        : articles.filter((article) => {
-            return article.title.indexOf(value) !== -1;
-          });
-    setFilteredArticleData(filteredArticles);
-  };
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setQuery(event.target.value);
+    },
+    [setQuery]
+  );
 
   return (
     <div className="search-form">

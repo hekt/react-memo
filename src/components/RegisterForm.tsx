@@ -1,17 +1,28 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { append } from 'storage';
-import { parseArticles, articleDataState } from 'article';
+import { append } from 'infrastructures/storage';
+import { parseArticles } from 'models/article';
+import { articleListState } from 'atoms/articleList';
 
 export function RegisterForm() {
   const [text, setText] = useState('');
-  const [articleDataList, setArticleData] = useRecoilState(articleDataState);
+  const [articleList, setArticleList] = useRecoilState(articleListState);
 
-  const handleClick = () => {
-    setArticleData(articleDataList.concat(parseArticles(text)));
-    append(text);
-    setText('');
-  };
+  const handleClick = useCallback(
+    () => {
+      setArticleList(articleList.concat(parseArticles(text)));
+      append(text);
+      setText('');
+    },
+    [articleList, setArticleList, text]
+  );
+
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setText(event.target.value);
+    },
+    []
+  );
 
   return (
     <div className="register-form">
@@ -19,9 +30,7 @@ export function RegisterForm() {
         className="text"
         placeholder="text"
         value={text}
-        onChange={(ev) => {
-          setText(ev.target.value);
-        }}
+        onChange={handleChange}
       />
       <br />
       <button onClick={handleClick}>Register</button>

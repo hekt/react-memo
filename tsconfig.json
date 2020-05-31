@@ -18,10 +18,10 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
-    "baseUrl": "./",
-    "paths": {
-      "AppRoot/*": ["./src/*"]
-    }
+    "baseUrl": "./src/",
+    "plugins": [
+      { "name": "typescript-tslint-plugin" }
+    ]
   },
   "include": [
     "src"

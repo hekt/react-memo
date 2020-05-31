@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import reactModal from 'react-modal';
+import React, { Component } from "react";
+import ReactModal from "react-modal";
 
-import { RegisterForm } from 'components/RegisterForm';
+import { RegisterForm } from "components/RegisterForm";
 
 export class RegisterFormModal extends Component<
   {},
@@ -29,7 +29,7 @@ export class RegisterFormModal extends Component<
         <span className="open-register-form" onClick={this.openModal}>
           register
         </span>
-        <Modal
+        <ReactModal
           className="register-form-modal"
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
@@ -39,7 +39,7 @@ export class RegisterFormModal extends Component<
           <span className="close-register-form" onClick={this.closeModal}>
             close
           </span>
-        </Modal>
+        </ReactModal>
       </div>
     );
   }
