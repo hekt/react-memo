@@ -6,15 +6,15 @@ import { articleListState } from 'atoms/articleList';
 export const filteredArticleListState = selector({
   key: 'filteredArticleListState',
   get: ({get}) => {
-    const query = get(filterQueryState);
     const list = get(articleListState);
 
-    if (query === '') {
-      return list;
-    }
+    const queries = get(filterQueryState).split(' ');
 
     return list.filter((article) => {
-      return article.title.indexOf(query) !== -1;
+      return queries.every((query) => {
+        const q = query.trim().toLowerCase();
+        return (q === '') || (article.title.toLowerCase().indexOf(q) !== -1);
+      });
     });
   },
 })
